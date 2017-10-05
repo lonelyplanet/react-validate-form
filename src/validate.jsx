@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from "react";
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 import merge from "lodash/merge";
 import union from "lodash/union";
 import validationRules from "./validationRules";
