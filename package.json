@@ -41,6 +41,7 @@
     "eslint-plugin-jsx-a11y": "^3.0.2",
     "eslint-plugin-react": "^6.9.0",
     "jest": "^19.0.1",
+    "prop-types": "^15.6.0",
     "react-addons-test-utils": "^15.4.2",
     "react-dom": "^15.4.2"
   },
