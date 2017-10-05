@@ -1,10 +1,16 @@
 {
-  "presets": [["env", {
-      "targets": {
-        "browsers": ["last 2 versions", "safari >= 7"]
-      }
-    }], "react"],
+  "presets": [
+    "stage-0",
+    "latest",
+    "node6",
+    "react"
+  ],
   "plugins": [
-    "babel-plugin-transform-object-rest-spread",
+    "transform-class-properties",
+    "transform-decorators",
+    "transform-es2015-classes",
+    "transform-react-constant-elements",
+    "transform-react-display-name",
+    "transform-react-inline-elements"
   ]
 }
