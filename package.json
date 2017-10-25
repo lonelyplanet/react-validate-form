@@ -42,12 +42,14 @@
     "eslint-plugin-react": "^6.9.0",
     "jest": "^19.0.1",
     "prop-types": "^15.6.0",
-    "react-addons-test-utils": "^15.4.2",
+    "react-addons-test-utils": "^15.4.2"
+  },
+  "peerDependencies": {
+    "react": "^15.4.2",
     "react-dom": "^15.4.2"
   },
   "dependencies": {
     "lodash": "^4.17.4",
-    "react": "^15.4.2",
     "rimraf": "^2.6.0"
   }
 }
