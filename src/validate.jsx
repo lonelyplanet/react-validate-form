@@ -25,7 +25,7 @@ class Validate extends Component {
       argumentSeperator: ":",
       allValid: false,
       errorCount: 0,
-      values: {}
+      values: this.props.initialValues || {}
     };
 
     this.handleValidate = this.handleValidate.bind(this);
