@@ -30,6 +30,8 @@ class Validate extends Component {
 
     this.handleValidate = this.handleValidate.bind(this);
     this.testForValidation = this.testForValidation.bind(this);
+    this.validateField = this.validateField.bind(this);
+    this.validateAll = this.validateAll.bind(this);
   }
 
   componentWillMount() {
@@ -61,6 +63,9 @@ class Validate extends Component {
 
   validateField(fieldName,fieldValue,overrideValidations)
   {
+    if (typeof fieldValue == 'undefined')
+      fieldValue = this.state.values[fieldName];
+
     const fieldErrorMessages = this.testForValidation(fieldName, fieldValue,overrideValidations);
     this.setState((currentState) => {
         const allErrors = Object.assign(
@@ -73,10 +78,11 @@ class Validate extends Component {
         values[fieldName] = fieldValue;
         
         return { errorMessages: allErrors,
-        errorCount,
-        values: values,
-        allValid: errorCount === 0
-    }});
+          errorCount,
+          values: values,
+          allValid: errorCount === 0
+      }
+    });
 
     return !fieldErrorMessages.length
   }
@@ -91,7 +97,6 @@ class Validate extends Component {
               }
           ,true)
   }
-
 
   ruleHasArgument(rule) {
     return rule.indexOf(this.state.argumentSeperator) >= 0;
@@ -126,6 +131,7 @@ class Validate extends Component {
       errorMessages: this.state.errorMessages,
       allValid: this.state.allValid,
       errorCount: this.state.errorCount,
+      allValues: this.state.values
     });
   }
 
