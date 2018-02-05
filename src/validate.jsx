@@ -25,6 +25,7 @@ class Validate extends Component {
       argumentSeperator: ":",
       allValid: false,
       errorCount: 0,
+      values: {}
     };
 
     this.handleValidate = this.handleValidate.bind(this);
@@ -55,28 +56,49 @@ class Validate extends Component {
       fieldValue = e.value;
     }
 
-    const fieldErrorMessages = this.testForValidation(fieldName, fieldValue);
-    const allErrors = Object.assign(
-        {},
-        this.state.errorMessages,
-        { [fieldName]: fieldErrorMessages },
-      );
-
-    const errorCount = Validate.checkErrorCount(allErrors);
-
-    this.setState({
-      errorMessages: allErrors,
-      errorCount,
-      allValid: errorCount === 0,
-    });
+    this.validateField(fieldName,fieldValue)
   }
+
+  validateField(fieldName,fieldValue,overrideValidations)
+  {
+    const fieldErrorMessages = this.testForValidation(fieldName, fieldValue,overrideValidations);
+    this.setState((currentState) => {
+        const allErrors = Object.assign(
+            {},
+            currentState.errorMessages,
+            { [fieldName]: fieldErrorMessages },
+        );
+        const errorCount = Validate.checkErrorCount(allErrors);
+        let values = currentState.values
+        values[fieldName] = fieldValue;
+        
+        return { errorMessages: allErrors,
+        errorCount,
+        values: values,
+        allValid: errorCount === 0
+    }});
+
+    return !fieldErrorMessages.length
+  }
+
+  validateAll()
+  {
+      return Object.keys(this.state.validations).reduce(
+          (currentValue,fieldName) => 
+              {
+                  let v = this.validateField(fieldName,this.state.values[fieldName])
+                  return currentValue && v;
+              }
+          ,true)
+  }
+
 
   ruleHasArgument(rule) {
     return rule.indexOf(this.state.argumentSeperator) >= 0;
   }
 
-  testForValidation(field, value) {
-    const fieldRequirements = this.state.validations[field];
+  testForValidation(field, value,overrideValidations) {
+    const fieldRequirements = overrideValidations || this.state.validations[field];
 
     // combine both the built in rules and custom rules
     const combinedValidationRules = _.merge({}, validationRules, this.props.rules);
@@ -86,14 +108,14 @@ class Validate extends Component {
         const [funcName, arg] = rule.split(this.state.argumentSeperator);
         return (
           combinedValidationRules[funcName] &&
-          !combinedValidationRules[funcName].test(arg)(value) &&
-          combinedValidationRules[funcName].message(arg)(field, value)
+          !combinedValidationRules[funcName].test(arg)(value,this.state.values,field) &&
+          combinedValidationRules[funcName].message(arg)(field, value,this.state.values,field)
         );
       }
       return (
         combinedValidationRules[rule] &&
-        !combinedValidationRules[rule].test(value) &&
-        combinedValidationRules[rule].message(field, value)
+        !combinedValidationRules[rule].test(value,this.state.values,field) &&
+        combinedValidationRules[rule].message(field, value,this.state.values,field)
       );
     }).filter(val => val);
   }
