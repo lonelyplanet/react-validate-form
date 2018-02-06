@@ -104,7 +104,7 @@ class Validate extends Component {
 
   testForValidation(field, value,overrideValidations) {
     const fieldRequirements = overrideValidations || this.state.validations[field];
-
+    value = value || '';
     // combine both the built in rules and custom rules
     const combinedValidationRules = _.merge({}, validationRules, this.props.rules);
 
