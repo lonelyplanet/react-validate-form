@@ -17,6 +17,11 @@ const validationRules = {
     test: arg => val => val.length <= arg,
     message: arg => name => `${name} must be less than ${arg} characters.`,
   },
+  equalTo: {
+    test: compareTo => (val, allValues) => allValues[compareTo] === val,
+    message: compareTo => name => `${name} does not match ${compareTo}`,
+  },
 };
+
 
 export default validationRules;

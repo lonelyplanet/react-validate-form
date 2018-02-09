@@ -58,44 +58,41 @@ class Validate extends Component {
       fieldValue = e.value;
     }
 
-    this.validateField(fieldName,fieldValue)
+    this.validateField(fieldName, fieldValue);
   }
 
-  validateField(fieldName,fieldValue,overrideValidations)
-  {
-    if (typeof fieldValue == 'undefined')
+  validateField(fieldName, fieldValue, overrideValidations) {
+    if (typeof fieldValue == 'undefined'){
       fieldValue = this.state.values[fieldName];
-
-    const fieldErrorMessages = this.testForValidation(fieldName, fieldValue,overrideValidations);
+    }
+    const fieldErrorMessages = this.testForValidation(fieldName, fieldValue, overrideValidations);
     this.setState((currentState) => {
-        const allErrors = Object.assign(
-            {},
-            currentState.errorMessages,
-            { [fieldName]: fieldErrorMessages },
-        );
-        const errorCount = Validate.checkErrorCount(allErrors);
-        let values = currentState.values
-        values[fieldName] = fieldValue;
-        
-        return { errorMessages: allErrors,
-          errorCount,
-          values: values,
-          allValid: errorCount === 0
-      }
+      const allErrors = Object.assign(
+          {},
+          currentState.errorMessages,
+          { [fieldName]: fieldErrorMessages },
+      );
+      const errorCount = Validate.checkErrorCount(allErrors);
+      const values = currentState.values;
+      values[fieldName] = fieldValue;
+      
+      return { errorMessages: allErrors,
+        errorCount,
+        values: values,
+        allValid: errorCount === 0,
+      };
     });
 
-    return !fieldErrorMessages.length
+    return !fieldErrorMessages.length;
   }
 
-  validateAll()
-  {
+  validateAll() {
       return Object.keys(this.state.validations).reduce(
-          (currentValue,fieldName) => 
-              {
-                  let v = this.validateField(fieldName,this.state.values[fieldName])
-                  return currentValue && v;
+          (currentValue, fieldName) =>{
+              const v = this.validateField(fieldName, this.state.values[fieldName]);
+              return currentValue && v;
               }
-          ,true)
+          , true);
   }
 
   ruleHasArgument(rule) {
