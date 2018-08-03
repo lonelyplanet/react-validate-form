@@ -55,7 +55,7 @@ class Validate extends Component {
       fieldValue = e.value;
     }
 
-    const fieldErrorMessages = this.testForValidation(fieldName, fieldValue);
+    const fieldErrorMessages = this.testForValidation(fieldName, fieldValue) || [];
     const allErrors = Object.assign(
         {},
         this.state.errorMessages,
