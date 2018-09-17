@@ -11,8 +11,10 @@ Wraps any number of inputs using a function as a child component and validates t
 ```javascript
   <Validate>
       {({ validate, errorMessages }) => (
-         <input onChange={validate} name="first" required />
-         <p>{errorMessages.first[0]}</p>
+          <Fragment>
+              <input onChange={validate} name="first" required />
+              <p>{errorMessages.first[0]}</p>
+          </Fragment
       )}
  </Validate>
 ```
