@@ -152,6 +152,27 @@ describe("Validate Component", () => {
   });
 
   describe("Input Validation", () => {
+    it("shows no errors for text input without validations prop", () => {
+      const wrapper = mount(
+        <Validate>
+          {({ validate }) => {
+            return (
+              <input
+                type="text"
+                onFocus={validate}
+                name="test"
+                defaultValue="test"
+              />
+            );
+          }}
+        </Validate>
+      );
+
+      wrapper.find("input").simulate("focus");
+      expect(wrapper.state().errorCount).toEqual(0);
+      expect(wrapper.state().allValid).toBe(true);
+    });
+
     it("counts the total number of errors", () => {
       const wrapper = mount(
         <Validate>
