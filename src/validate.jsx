@@ -81,7 +81,7 @@ class Validate extends Component {
     // combine both the built in rules and custom rules
     const combinedValidationRules = _.merge({}, validationRules, this.props.rules);
 
-    return fieldRequirements && fieldRequirements.map(rule => {
+    return fieldRequirements ? fieldRequirements.map(rule => {
       if (this.ruleHasArgument(rule)) {
         const [funcName, arg] = rule.split(this.state.argumentSeperator);
         return (
@@ -95,7 +95,7 @@ class Validate extends Component {
         !combinedValidationRules[rule].test(value) &&
         combinedValidationRules[rule].message(field, value)
       );
-    }).filter(val => val);
+    }).filter(val => val) : [];
   }
 
   renderChildren() {
